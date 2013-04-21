@@ -1,0 +1,10 @@
+.settings/org.eclipse.core.resources.prefs
+.settings/org.eclipse.m2e.core.prefs
+api/.settings/org.eclipse.core.resources.prefs
+api/.settings/org.eclipse.jdt.core.prefs
+api/.settings/org.eclipse.m2e.core.prefs
+omod/.settings/org.eclipse.core.resources.prefs
+omod/.settings/org.eclipse.jdt.core.prefs
+omod/.settings/org.eclipse.m2e.core.prefs
+omod/target/
+api/target/
