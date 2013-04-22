@@ -1,7 +1,18 @@
 <% ui.includeCss("vtoxfordnicu", "encountertable.css") %>
 
+<div id="controls">
+	<select id="completedOnly">
+	  <option value="false">Only incomplete</option>
+	  <option value="true">Only completed</option>
+	  <option value="">All encounters</option>
+	</select>
+	
+	
+</div>
+
 <table id="<%= config.id %>" class="encounterTable">
 </table>
+
 
 <script type="text/template" id="enc-table-template">
 <thead>
@@ -16,21 +27,13 @@
 		{! var currentEncounter = encounterdata[i]; !}
 		<tr class="encounterRow" encounterId="{{ currentEncounter.encounterId }}">
 			{! for (var j = 0; j < headers.length; j++) { !}
-				<td>{{ currentEncounter[headers[j]] }}</td>
+				<td>{{ currentEncounter[headerValues[j]] }}</td>
 			{! } !}
 		</tr>
 	{! } !}
 </tbody>
 <tfoot>
 </tfoot>
-</script>
-
-<script type="text/template" id="enc-list-item-template">
-	<tr class="encounterRow">
-		{! for(var i = 0; i < data.headers.length; i++) { !}
-			<td class="row{{i}}">{{ data.rowdata[data.headers[i]] }}</td>
-		{! } !}
-	<tr>
 </script>
 
 <script type="text/javascript">
@@ -59,6 +62,7 @@
 		template : _.template(jq("#enc-table-template").html()),
 		
 		headers : <%= jsonOutput.toJson(config.headers) %>,
+		headerValues : <%= jsonOutput.toJson(config.headerValues) %>,
 
 		events : {
 			"mouseover .encounterRow" : "mouseOverRow",
@@ -73,7 +77,8 @@
 		render : function() {
 			this.\$el.html(this.template(
 					{encounterdata : EncounterList.toJSON(),
-						 headers  : this.headers}));
+						 headers  : this.headers,
+						 headerValues  : this.headerValues}));
 		},
 
 		reset : function() {
@@ -93,21 +98,37 @@
 			var encounterId = jq(event.currentTarget).attr('encounterId');
 			document.location.href = "../module/htmlformentry/htmlFormEntry.form?encounterId=" +
 			 encounterId +
-			 "&mode=edit";
+			 "&mode=edit" + 
+			 "&returnUrl=" +
+			 "<%= ui.thisUrl() %>";
+		}
+	});
+	
+	var ListView = new ListViewObject({collection : EncounterList, el : \$("#<%= config.id %>")});
+	ListView.render();
+	
+	var ajaxSuccess = function(data) {
+		console.log(data);
+		EncounterList.reset(data.results);<%= config.completedOnly %>
+	};
+
+	var getData = function() {
+		jq.getJSON("../ws/rest/v1/vtoxfordnicu/nicuencounter",
+			{ completedOnly : \$("#completedOnly :selected").val(), formId : "<%= config.formId %>", limit : 50 },
+			ajaxSuccess )
+	};
+	
+	var ControlViewObject = Backbone.View.extend({
+		events : {
+			"change" : "controlChanged"
+		},
+
+		controlChanged : function(event) {
+			getData();
 		}
 	});
 
-	var ListView = new ListViewObject({collection : EncounterList, el : \$("#<%= config.id %>")});
-	ListView.render();
+	var ControlView = new ControlViewObject({el : jq("#controls")});
 
-	var ajaxSuccess = function(data) {
-		console.log(data);
-		EncounterList.reset(data.results);
-	};
-
-	jq(function() {
-		jq.getJSON("../ws/rest/v1/vtoxfordnicu/nicuencounter",
-			{ completedOnly : "<%= config.completedOnly %>", formId : "<%= config.formId %>" },
-			ajaxSuccess )
-	});
+	getData();
 </script>

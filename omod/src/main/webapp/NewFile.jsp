@@ -585,11 +585,15 @@ FREE TEXT OBSERVATION
 
 <script type="text/javascript">
 jQuery(function() {
-	jQuery.getJSON("../../module/idgen/generateIdentifier.form", {source : 2}, function(data) {
-		if (data.identifiers) {
-			jQuery("#identifierContainer").find("input[type='text']").val(data.identifiers[0]);
-		}
-	});
+	var idInput = jQuery("#identifierContainer").find("input[type='text']");
+	idInput.attr('disabled', 'true');
+	if (idInput.val() == undefined || idInput.val() =="") {
+		jQuery.getJSON("../../module/idgen/generateIdentifier.form", {source : 2}, function(data) {
+			if (data.identifiers) {
+				idInput.val(data.identifiers[0]);
+			}
+		});
+	}
 });
 </script>
 </htmlform>
