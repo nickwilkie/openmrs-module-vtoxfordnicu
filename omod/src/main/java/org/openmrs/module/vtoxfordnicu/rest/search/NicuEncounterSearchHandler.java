@@ -5,6 +5,8 @@ package org.openmrs.module.vtoxfordnicu.rest.search;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -106,7 +108,7 @@ public class NicuEncounterSearchHandler implements SearchHandler{
 		formCompletedAnswers.add(formStatus);
 
 		//Context.getEncounterService().getEncounters(who, loc, fromDate, toDate, enteredViaForms, encounterTypes, providers, includeVoided)
-		List<Encounter> allEncounters = encounterService.getEncounters(null, null, null, null, formlist, null, null, null, null, true);
+		List<Encounter> allEncounters = encounterService.getEncounters(null, null, null, null, formlist, null, null, null, null, false);
 		List<NicuEncounter> nicuEncounters = new ArrayList<NicuEncounter>();
 		for (Encounter encounter : allEncounters) {
 		    Set<Obs> allObs = encounter.getObs();
@@ -128,6 +130,24 @@ public class NicuEncounterSearchHandler implements SearchHandler{
 				nicuEncounters.add(nicuEncounter);
 		    }
 		}
+		
+		Collections.sort(nicuEncounters, new Comparator<NicuEncounter>() {
+
+			@Override
+			public int compare(NicuEncounter arg0, NicuEncounter arg1) {
+				if((arg0 == null || arg0.getEncounterDate() == null) &&
+						(arg1 == null || arg1.getEncounterDate() == null)) {
+					return 0;
+				} else if (arg0 == null || arg0.getEncounterDate() == null) {
+					return 1;
+				} else if (arg1 == null || arg1.getEncounterDate() == null) {
+					return -1;
+				}
+				
+				return arg1.getEncounterDate().compareTo(arg0.getEncounterDate());
+			}
+			
+		});
 
 		return new NeedsPaging<NicuEncounter>(nicuEncounters, context);
 	}

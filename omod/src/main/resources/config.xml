@@ -29,6 +29,13 @@
 		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList
 		</class>
 	</extension>
+	
+	<!-- Adds gutter link for VT Oxford NICU page -->
+	<extension>
+		<point>org.openmrs.gutter.tools</point>
+		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.GutterLink
+		</class>
+	</extension>
 
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>

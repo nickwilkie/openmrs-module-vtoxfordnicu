@@ -1,29 +1,42 @@
 @CHARSET "UTF-8";
 
-table.encounterTable {
+.encounterTable {
 	width:100%;
     border-collapse:collapse;
 }
 
-table.encounterTable th,table.encounterTable td
+.encounterTable th,table.encounterTable td
 {
 	border: 1px solid black;
 }
 
-table.encounterTable th
+.encounterTable th
 {
 	padding:10px;
 	text-align:center;
 	background-color : #009d8e;
 }
 
-table.encounterTable td
+.encounterTable td
 {
 	border: 1px solid black;
 	padding : 3px 10px 3px 10px;
 }
 
-table.encounterTable tr.mouseOverRow {
+.encounterTable tr.mouseOverRow {
 	background-color : #EEEEEE;
+	cursor: pointer;
+}
+
+#encountersLoader {
+	margin-left: auto;
+	margin-right: auto;
+	
+	padding-top: 10px;
+	
+	width: 100px;
+}
+
+.nextButton, .prevButton {
 	cursor: pointer;
 }

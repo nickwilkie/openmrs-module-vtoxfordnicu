@@ -1,9 +1,13 @@
+<% ui.includeCss("vtoxfordnicu", "vtoxfordmain.css") %>
 <% ui.includeJavascript("vtoxfordnicu", "underscore-min.js", -1) %>
 <% ui.includeJavascript("vtoxfordnicu", "backbone.js", -2) %>
 <% ui.decorateWith("uilibrary", "standardPage") %>
-
-<h1>NICU Encounters</h1><br/>
-${ ui.includeFragment("vtoxfordnicu", "enterNewPatientControls",
+<div class="nicuHeader">
+	<img src="${ ui.resourceLink("vtoxfordnicu", "images/vtoxlogo.gif") }"/>
+	<h1>Tikur Anbessa NICU</h1>
+</div>
+<br/>
+${ ui.includeFragment("vtoxfordnicu", "controlPanel",
 	[formId : 1]) }
 ${ ui.includeFragment("vtoxfordnicu", "nicuEncounters",
 	[id : "table1",

@@ -3,6 +3,7 @@
  */
 package org.openmrs.module.vtoxfordnicu.api;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.openmrs.Encounter;
@@ -15,10 +16,12 @@ import org.openmrs.PatientIdentifier;
  *
  */
 public class NicuEncounter {
+	private static SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+	
 	private String givenName;
 	private String familyName;
 	private String medicalRecordNumber;
-	private Date encounterDate;
+	private String encounterDate;
 	private boolean completed;
 
 	private Encounter encounter;
@@ -37,7 +40,7 @@ public class NicuEncounter {
 		if (patientIdentifier != null) {
 			this.medicalRecordNumber = patientIdentifier.toString();
 		}
-		this.encounterDate = e.getEncounterDatetime();
+		this.encounterDate = dateFormatter.format(e.getEncounterDatetime());
 		this.encounterId = e.getId();
 	}
 
@@ -86,14 +89,14 @@ public class NicuEncounter {
 	/**
 	 * @return the encounterDate
 	 */
-	public Date getEncounterDate() {
+	public String getEncounterDate() {
 		return encounterDate;
 	}
 
 	/**
 	 * @param encounterDate the encounterDate to set
 	 */
-	public void setEncounterDate(Date encounterDate) {
+	public void setEncounterDate(String encounterDate) {
 		this.encounterDate = encounterDate;
 	}
 

@@ -9,7 +9,7 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
  * @author Nicholas Wilkie
  *
  */
-public class EnterNewPatientControlsFragmentController {
+public class ControlPanelFragmentController {
     public void controller(FragmentModel model) {
     }
 }

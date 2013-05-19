@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+
+.nicuHeader {
+	margin-left: auto;
+	margin-right: auto;
+	display: table;
+}
+
+.nicuHeader > * {
+	display: table-cell;
+	vertical-align: middle;
+	padding-left: 20px;
+}
+
+.nicuHeader>*:FIRST-CHILD {
+	padding-left: 0px;
+}
